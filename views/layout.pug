@@ -1,7 +1,21 @@
 doctype html
+//- dzieki mixinom mozna tworzyc taki szablon do wykozystania
+mixin item(title, url)
+  li  
+    a(href=url class=path == url ? 'active' : "")=title
+//- sprawdza czy url jest taki sam jak sciezka nprzyklad sciezka
+//- admin jest taka sama jak strona naktorej jestesmy i nadaje jej klase active
 html
   head
     title= title
     link(rel='stylesheet', href='/stylesheets/style.css')
   body
+    span=path
+    ul
+      +item('strona Glowna', '/')
+      +item('news', '/news')
+      +item('quiz', '/quiz')
+      +item('admin', '/admin')
     block content
+
+//- layoutslozy do okreslenia strony ktora bedzie wspolna do wszystkich
