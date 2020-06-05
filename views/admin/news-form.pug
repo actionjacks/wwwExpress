@@ -1,0 +1,18 @@
+extends ../layout
+//- exportuje layout jest to czest wpolnastrony beda tu style javascript 
+block content
+  h1= title
+  if errors.errors !== undefined
+    each message in errors.errors
+        p=message
+
+  form(method='post')
+    p
+        label tytul
+        input(type='text' name='title')
+    p
+        label opis
+        input(name='description')
+    p
+        input(type='submit' name='zaisz')
+    

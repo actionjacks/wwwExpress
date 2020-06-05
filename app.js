@@ -1,15 +1,29 @@
-var createError = require("http-errors");
-var express = require("express");
-var path = require("path");
-var cookieParser = require("cookie-parser");
-var logger = require("morgan");
+const createError = require("http-errors");
+const cookieSession = require("cookie-session");
+const express = require("express");
+const path = require("path");
+const cookieParser = require("cookie-parser");
+const logger = require("morgan");
+const config = require("./config");
 
-var indexRouter = require("./routes/index");
-var newsRouter = require("./routes/news");
-var quizRouter = require("./routes/quiz");
-var adminRouter = require("./routes/admin");
+//tu polaczymy sie z baza danych
+const mongoose = require("mongoose");
+mongoose.connect(config.db, { useNewUrlParser: true });
+//sprawdzamy czy sie polaczylismy
+const db = mongoose.connection;
+db.on("error", console.error.bind(console, "connection error"));
+db.once("open", function () {
+  console.log("we ar connected");
+});
 
-var app = express();
+const indexRouter = require("./routes/index");
+const newsRouter = require("./routes/news");
+const quizRouter = require("./routes/quiz");
+const adminRouter = require("./routes/admin");
+
+//mongodb+srv://admin:<admin>@jacek-nqpdz.mongodb.net/<dbname>?retryWrites=true&w=majority
+
+const app = express();
 
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
@@ -20,6 +34,13 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
+app.use(
+  cookieSession({
+    name: "session",
+    keys: config.keySession,
+    maxAge: config.maxAgeSession,
+  })
+);
 
 //skrypt ktory przeleci przed renderowaniem royterow
 app.use(function (req, res, next) {
