@@ -48,4 +48,12 @@ router.post("/news/add", (req, res) => {
   });
 });
 
+//dodatkowy parametr id w tym wypadku jest w req.params.id
+router.get("/news/delete/:id", (req, res) => {
+  News.findByIdAndDelete(req.params.id, (err) => {
+    //po usunieciu przekierowanie na admina
+    res.redirect("/admin");
+  });
+});
+
 module.exports = router;

@@ -17,7 +17,7 @@ db.once("open", function () {
 });
 
 const indexRouter = require("./routes/index");
-const newsRouter = require("./routes/news");menuu
+const newsRouter = require("./routes/news");
 const quizRouter = require("./routes/quiz");
 const adminRouter = require("./routes/admin");
 
